@@ -7,8 +7,8 @@ const createUserValid = (req, res, next) => {
     const errorText = validate(req.body, 'forCreation');
     if (errorText !== '') {
         const error = {
-            error: true,
-            message : errorText
+            "error": true,
+            "message" : errorText
         }
         res.status(400).send(JSON.stringify(error));
     } else {
@@ -20,8 +20,8 @@ const updateUserValid = (req, res, next) => {
     const errorText = validate(req.body, 'forUpdate');
     if (errorText !== '') {
         const error = {
-            error: true,
-            message : errorText
+            "error": true,
+            "message" : errorText
         }
         res.status(400).send(JSON.stringify(error));
     } else {
@@ -51,6 +51,9 @@ const validateFirstName = (firstName) => {
 const validate = (newUser, reasone) => {
     let errorText = "";
     const userProps = Object.keys(newUser);
+    if (newUser.id) {
+        errorText += "User should not have id property!";
+    }
     if (reasone === 'forCreation' && (!userProps.includes('email') || !userProps.includes('password') ||
     !userProps.includes('firstName') || !userProps.includes('lastName') || !userProps.includes('phoneNumber'))) {
         errorText += 'Required parameters missing. ';

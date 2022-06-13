@@ -6,69 +6,70 @@ const { createFighterValid, updateFighterValid } = require('../middlewares/fight
 const router = Router();
 
 // TODO: Implement route controllers for fighter
-router.get('/', function(req, res, next) {
-    const fighters = FighterService.getAllFighters();
+router.get('/', function (req, res, next) {
+    const fighters = FighterService.getAll();
 	if (fighters) {
-        res.send(fighters);
+        res.status(200).send(fighters);
     } else {
         const error = {
-            error: true,
-            message:"Fighter not got, error!"
+            "error": true,
+            "message": "Fighters not found!"
         };
         res.status(400).send(JSON.stringify(error));
-    }	
-})
-router.get('/:id', function(req, res, next) {
-    const fighter = FighterService.getOneFighter(req.params.id);;
+    }
+});
+
+router.get('/:id', function (req, res, next) {
+    const fighter = FighterService.getOne(req.params.id);
 	if (fighter) {
-        res.send(fighter);
+        res.status(200).send(fighter);
     } else {
         const error = {
-            error: true,
-            message:"Fighter not got, error!"
+            "error": true,
+            "message": "Fighter does not found!"
         };
         res.status(404).send(JSON.stringify(error));
-    }	
+    }
+});
 
-})
-
-router.post('/', createFighterValid, function(req, res) {
+router.post('/', createFighterValid, function (req, res) {
     const fighter = FighterService.create(req.body);
     if (fighter) {
-        res.send("Fighter create successful");
+        res.status(200).send({"message": "Fighter creation success!"});
     } else {
         const error = {
-            error: true,
-            message:"Fighter not create, error!"
+            "error": true,
+            "message": "ERROR! Fighter does not created!"
         };
         res.status(400).send(JSON.stringify(error));
-    }	
-})
+    }
+});
 
-router.put('/:id', updateFighterValid, function(req, res ) {
+router.put('/:id', updateFighterValid, function (req, res) {
     const dataToUpdate = req.body;
     const fighter = FighterService.update(req.params.id, dataToUpdate);
     if (fighter) {
-        res.send("Fighter update successful");
+        res.status(200).send({"message": "Fighter update successful"});
     } else {
         const error = {
-            error: true,
-            message:"Fighter not update, error!"
+            "error": true,
+            "message": "Fighter not update, error!"
         };
         res.status(400).send(JSON.stringify(error));
-    }	
-})
+    }
+});
 
-router.delete('/:id', function(req,res){
+router.delete('/:id', function (req, res){
     const fighter = FighterService.delete(req.params.id);
     if (fighter) {
-        res.send("Fighter delete successful");
+        res.status(200).send({"message": "Fighter delete successful"});
     } else {
         const error = {
-            error: true,
-            message:"Fighter not delete, error!"
+            "error": true,
+            "message": "Fighter not delete, error!"
         };
         res.status(400).send(JSON.stringify(error));
-    }	
-})
+    }
+});
+
 module.exports = router;
