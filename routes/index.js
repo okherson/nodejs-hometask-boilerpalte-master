@@ -4,6 +4,7 @@ const fighterRoutes = require('./fighterRoutes');
 const fightRoutes = require('./fightRoutes');
 
 module.exports = (app) => {
+    app.use('/api/user', userRoutes);
     app.use('/api/users', userRoutes);
     app.use('/api/fighters', fighterRoutes);
     app.use('/api/fights', fightRoutes);
